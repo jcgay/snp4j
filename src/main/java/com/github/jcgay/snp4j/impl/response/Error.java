@@ -1,4 +1,4 @@
-package com.github.jcgay.snp4j.response;
+package com.github.jcgay.snp4j.impl.response;
 
 import lombok.Data;
 import lombok.NonNull;

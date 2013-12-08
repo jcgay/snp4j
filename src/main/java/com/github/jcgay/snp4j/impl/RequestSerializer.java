@@ -1,8 +1,8 @@
 package com.github.jcgay.snp4j.impl;
 
-import com.github.jcgay.snp4j.request.Action;
-import com.github.jcgay.snp4j.request.Parameter;
-import com.github.jcgay.snp4j.request.Request;
+import com.github.jcgay.snp4j.impl.request.Action;
+import com.github.jcgay.snp4j.impl.request.Parameter;
+import com.github.jcgay.snp4j.impl.request.Request;
 import lombok.NonNull;
 
 public class RequestSerializer {

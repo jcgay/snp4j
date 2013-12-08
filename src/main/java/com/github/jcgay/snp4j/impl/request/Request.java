@@ -1,4 +1,4 @@
-package com.github.jcgay.snp4j.request;
+package com.github.jcgay.snp4j.impl.request;
 
 import com.github.jcgay.snp4j.Application;
 import lombok.AccessLevel;

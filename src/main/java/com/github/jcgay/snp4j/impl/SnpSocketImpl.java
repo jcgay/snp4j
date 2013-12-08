@@ -3,8 +3,8 @@ package com.github.jcgay.snp4j.impl;
 import com.github.jcgay.snp4j.Server;
 import com.github.jcgay.snp4j.SnpException;
 import com.github.jcgay.snp4j.SnpSocket;
-import com.github.jcgay.snp4j.request.Request;
-import com.github.jcgay.snp4j.response.Response;
+import com.github.jcgay.snp4j.impl.request.Request;
+import com.github.jcgay.snp4j.impl.response.Response;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,6 @@ public class SnpSocketImpl implements SnpSocket {
         String s;
         try {
             while ((s = in.readLine()) != null) {
-                System.out.println(s);
                 if ("END".equals(s)) {
                     break;
                 }

@@ -1,4 +1,4 @@
-package com.github.jcgay.snp4j.request;
+package com.github.jcgay.snp4j.impl.request;
 
 public class EmptyParameter extends Parameter {
 

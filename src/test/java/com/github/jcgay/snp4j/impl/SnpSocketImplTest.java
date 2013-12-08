@@ -1,15 +1,14 @@
 package com.github.jcgay.snp4j.impl;
 
 import com.github.jcgay.snp4j.Application;
-import com.github.jcgay.snp4j.request.Action;
-import com.github.jcgay.snp4j.request.Request;
-import com.github.jcgay.snp4j.response.Response;
-import com.github.jcgay.snp4j.response.Status;
+import com.github.jcgay.snp4j.impl.request.Action;
+import com.github.jcgay.snp4j.impl.request.Request;
+import com.github.jcgay.snp4j.impl.response.Response;
+import com.github.jcgay.snp4j.impl.response.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.BufferedReader;
@@ -19,6 +18,7 @@ import java.net.Socket;
 import java.util.UUID;
 
 import static com.github.jcgay.snp4j.assertion.SnpAssertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -115,7 +115,7 @@ public class SnpSocketImplTest {
                 .hasStatus(Status.ARG_MISSING)
                 .hasHost("ie10win7")
                 .hasDaemon("Snarl 3.0")
-                .hasError(new com.github.jcgay.snp4j.response.Error(Status.ARG_MISSING, "ArgMissing", "A required argument was missing"));
+                .hasError(new com.github.jcgay.snp4j.impl.response.Error(Status.ARG_MISSING, "ArgMissing", "A required argument was missing"));
     }
 
     @Test
@@ -154,6 +154,14 @@ public class SnpSocketImplTest {
                 .hasStatus(Status.AUTH_FAILURE)
                 .hasHost("conerstone")
                 .hasDaemon("Snarl 2.4")
-                .hasError(new com.github.jcgay.snp4j.response.Error(Status.AUTH_FAILURE, "AuthenticationFailure", "Digest Mismatch"));
+                .hasError(new com.github.jcgay.snp4j.impl.response.Error(Status.AUTH_FAILURE, "AuthenticationFailure", "Digest Mismatch"));
+    }
+
+    @Test
+    public void should_close() throws Exception {
+
+        underTest.close();
+
+        verify(socket).close();
     }
 }

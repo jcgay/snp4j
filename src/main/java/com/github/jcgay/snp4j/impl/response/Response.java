@@ -1,6 +1,5 @@
-package com.github.jcgay.snp4j.response;
+package com.github.jcgay.snp4j.impl.response;
 
-import com.github.jcgay.snp4j.SnpException;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NonNull;

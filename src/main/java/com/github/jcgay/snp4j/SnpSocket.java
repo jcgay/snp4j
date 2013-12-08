@@ -1,7 +1,7 @@
 package com.github.jcgay.snp4j;
 
-import com.github.jcgay.snp4j.request.Request;
-import com.github.jcgay.snp4j.response.Response;
+import com.github.jcgay.snp4j.impl.request.Request;
+import com.github.jcgay.snp4j.impl.response.Response;
 import lombok.NonNull;
 
 import java.io.Closeable;

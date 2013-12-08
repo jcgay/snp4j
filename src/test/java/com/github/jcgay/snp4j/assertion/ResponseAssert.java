@@ -1,7 +1,7 @@
 package com.github.jcgay.snp4j.assertion;
 
-import com.github.jcgay.snp4j.response.Response;
-import com.github.jcgay.snp4j.response.Status;
+import com.github.jcgay.snp4j.impl.response.Response;
+import com.github.jcgay.snp4j.impl.response.Status;
 import org.assertj.core.api.AbstractAssert;
 
 
@@ -41,7 +41,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
         return this;
     }
 
-    public ResponseAssert hasError(com.github.jcgay.snp4j.response.Error error) {
+    public ResponseAssert hasError(com.github.jcgay.snp4j.impl.response.Error error) {
         isNotNull();
         checkNotNull(error);
         if (!error.equals(actual.getError())) {
