@@ -17,7 +17,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class SnpSocketImpl implements SnpSocket {
 
     @NonNull
@@ -30,16 +30,11 @@ public class SnpSocketImpl implements SnpSocket {
     private final RequestSerializer serializer;
 
     public static SnpSocketImpl of(@NonNull Server server) {
-        return of(server, new RequestSerializer());
-    }
-
-    static SnpSocketImpl of(@NonNull Server server,
-                            @NonNull RequestSerializer serializer) {
         try {
             Socket socket = new Socket(server.getHost(), server.getPort());
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            return new SnpSocketImpl(writer, reader, socket, serializer);
+            return new SnpSocketImpl(writer, reader, socket, new RequestSerializer());
         } catch (IOException e) {
             throw new SnpException("Cannot create notifier, an error occurs while creating the socket.", e);
         }

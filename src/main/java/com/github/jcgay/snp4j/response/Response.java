@@ -66,14 +66,32 @@ public class Response {
         }
 
         private Error buildError(Map<String, String> responseElements) {
+            Error error = parseResult(responseElements.get(Key.RESULT.value));
+            if (error != null) {
+                return error;
+            }
+
             if (responseElements.containsKey(Key.ERROR_CODE.value)) {
                 return new Error(
+                        Status.fromCode(responseElements.get(Key.ERROR_CODE.value)),
                         responseElements.get(Key.ERROR_NAME.value),
                         responseElements.get(Key.ERROR_HINT.value)
                 );
             }
 
             return null;
+        }
+
+        private Error parseResult(String result) {
+            if (result == null) {
+                return null;
+            }
+            String[] elements = result.split(" ", 3);
+            Status status = Status.fromCode(elements[1]);
+            if (status == Status.OK) {
+                return null;
+            }
+            return new Error(status, elements[2], status.getHint());
         }
 
         private Date parseTime(String s) {
@@ -86,6 +104,13 @@ public class Response {
         }
 
         private Status getStatus(Map<String, String> elements) {
+            if (elements.containsKey(Key.RESULT.value)) {
+                Error error = parseResult(elements.get(Key.RESULT.value));
+                if (error != null) {
+                    return error.getStatus();
+                }
+            }
+
             if (elements.get(Key.HEADER.value).contains("OK")) {
                 return Status.OK;
             }
