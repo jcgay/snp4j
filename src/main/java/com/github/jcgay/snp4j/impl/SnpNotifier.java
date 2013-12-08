@@ -7,6 +7,7 @@ import com.github.jcgay.snp4j.Server;
 import com.github.jcgay.snp4j.SnpSocket;
 import com.github.jcgay.snp4j.request.Action;
 import com.github.jcgay.snp4j.request.Request;
+import com.github.jcgay.snp4j.response.Response;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,8 @@ public class SnpNotifier implements Notifier {
                 .addAction(notify)
                 .build();
 
-        return socket.send(request);
+        Response send = socket.send(request);
+        return true;
     }
 
     public static SnpNotifier of(@NonNull Application application, @NonNull Server server) {

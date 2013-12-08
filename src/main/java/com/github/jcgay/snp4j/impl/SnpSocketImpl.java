@@ -4,6 +4,7 @@ import com.github.jcgay.snp4j.Server;
 import com.github.jcgay.snp4j.SnpException;
 import com.github.jcgay.snp4j.SnpSocket;
 import com.github.jcgay.snp4j.request.Request;
+import com.github.jcgay.snp4j.response.Response;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SnpSocketImpl implements SnpSocket {
@@ -32,7 +33,8 @@ public class SnpSocketImpl implements SnpSocket {
         return of(server, new RequestSerializer());
     }
 
-    private static SnpSocketImpl of(@NonNull Server server, @NonNull RequestSerializer serializer) {
+    static SnpSocketImpl of(@NonNull Server server,
+                            @NonNull RequestSerializer serializer) {
         try {
             Socket socket = new Socket(server.getHost(), server.getPort());
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
@@ -44,11 +46,14 @@ public class SnpSocketImpl implements SnpSocket {
     }
 
     @Override
-    public boolean send(@NonNull Request request) {
-        String toSend = serializer.stringify(request);
-        out.print(toSend);
+    public Response send(@NonNull Request request) {
+        out.print(serializer.stringify(request));
         out.flush();
+        return readResponse();
+    }
 
+    private Response readResponse() {
+        Map<String, String> responseElements = new HashMap<String, String>();
         String s;
         try {
             while ((s = in.readLine()) != null) {
@@ -56,12 +61,13 @@ public class SnpSocketImpl implements SnpSocket {
                 if ("END".equals(s)) {
                     break;
                 }
+                String[] split = s.split(" ", 2);
+                responseElements.put(split[0], split[1]);
             }
+            return Response.builder(responseElements).build();
         } catch (IOException e) {
             throw new SnpException("Error while reading response.", e);
         }
-
-        return true;
     }
 
     @Override
