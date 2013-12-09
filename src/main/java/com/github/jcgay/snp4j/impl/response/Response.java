@@ -25,11 +25,48 @@ public class Response {
 
     private final Error error;
 
-    public static Builder builder(@NonNull Map<String, String> responseElements) {
-        return new Builder(responseElements);
+    public static MapBuilder mapBuilder(@NonNull Map<String, String> responseElements) {
+        return new MapBuilder(responseElements);
+    }
+
+    public static Builder builder(Status status, Date time, String daemon, String host) {
+        return new Builder(status, time, daemon, host);
+    }
+
+    public boolean hasSucceeded() {
+        return status == Status.OK;
+    }
+
+    public boolean hasNotSucceeded() {
+        return !hasSucceeded();
     }
 
     public static class Builder {
+
+        private final Status status;
+        private final Date time;
+        private final String daemon;
+        private final String host;
+        private Error error;
+
+        protected Builder(Status status, Date time, String daemon, String host) {
+            this.status = status;
+            this.time = time;
+            this.daemon = daemon;
+            this.host = host;
+        }
+
+        public Builder withError(Error error) {
+            this.error = error;
+            return this;
+        }
+
+        public Response build() {
+            return new Response(status, time, daemon, host, error);
+        }
+    }
+
+    public static class MapBuilder {
 
         private static enum Key {
             HEADER("SNP/3.0"),
@@ -50,7 +87,7 @@ public class Response {
 
         private final Map<String, String> responseElements;
 
-        protected Builder(Map<String, String> responseElements) {
+        protected MapBuilder(Map<String, String> responseElements) {
             this.responseElements = responseElements;
         }
 

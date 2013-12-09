@@ -1,5 +1,6 @@
-package com.github.jcgay.snp4j;
+package com.github.jcgay.snp4j.request;
 
+import com.github.jcgay.snp4j.Icon;
 import lombok.Data;
 
 @Data

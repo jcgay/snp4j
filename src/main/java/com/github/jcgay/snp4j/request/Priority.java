@@ -1,4 +1,4 @@
-package com.github.jcgay.snp4j;
+package com.github.jcgay.snp4j.request;
 
 import lombok.Getter;
 

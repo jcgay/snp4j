@@ -2,7 +2,6 @@ package com.github.jcgay.snp4j.impl;
 
 import com.github.jcgay.snp4j.Server;
 import com.github.jcgay.snp4j.SnpException;
-import com.github.jcgay.snp4j.SnpSocket;
 import com.github.jcgay.snp4j.impl.request.Request;
 import com.github.jcgay.snp4j.impl.response.Response;
 import lombok.AccessLevel;
@@ -58,7 +57,7 @@ public class SnpSocketImpl implements SnpSocket {
                 String[] split = s.split(" ", 2);
                 responseElements.put(split[0], split[1]);
             }
-            return Response.builder(responseElements).build();
+            return Response.mapBuilder(responseElements).build();
         } catch (IOException e) {
             throw new SnpException("Error while reading response.", e);
         }

@@ -1,13 +1,14 @@
 package com.github.jcgay.snp4j.impl;
 
 import com.github.jcgay.snp4j.Application;
-import com.github.jcgay.snp4j.Notification;
+import com.github.jcgay.snp4j.SnpException;
+import com.github.jcgay.snp4j.request.Notification;
 import com.github.jcgay.snp4j.Notifier;
 import com.github.jcgay.snp4j.Server;
-import com.github.jcgay.snp4j.SnpSocket;
 import com.github.jcgay.snp4j.impl.request.Action;
 import com.github.jcgay.snp4j.impl.request.Request;
 import com.github.jcgay.snp4j.impl.response.Response;
+import com.github.jcgay.snp4j.response.NotificationResult;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,11 @@ public class SnpNotifier implements Notifier {
     private final SnpSocket socket;
 
     @Override
-    public boolean send(@NonNull Notification notification) {
+    public NotificationResult send(@NonNull Notification notification) {
 
         // controle de la notification
 
+        UUID uuid = UUID.randomUUID();
         Action notify = Action.name("notify")
                 .withParameter("id", notification.getClassId())
                 .withParameter("title", notification.getTitle())
@@ -34,14 +36,19 @@ public class SnpNotifier implements Notifier {
                 .withParameter("icon-base64", notification.getIconBase64())
                 .withParameter("sound", notification.getSound())
                 .withParameter("priority", notification.getPriority())
+                .withParameter("uuid", uuid)
                 .build();
 
         Request request = Request.builder(application)
                 .addAction(notify)
                 .build();
 
-        Response send = socket.send(request);
-        return true;
+        Response response = socket.send(request);
+        if (response.hasNotSucceeded()) {
+            throw new SnpException(response.getError());
+        }
+
+        return new NotificationResult(uuid);
     }
 
     public static SnpNotifier of(@NonNull Application application, @NonNull Server server) {
