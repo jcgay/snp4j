@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -69,5 +70,10 @@ public class SnpNotifier implements Notifier {
         socket.send(request);
 
         return new SnpNotifier(application, socket);
+    }
+
+    @Override
+    public void close() throws IOException {
+        socket.close();
     }
 }

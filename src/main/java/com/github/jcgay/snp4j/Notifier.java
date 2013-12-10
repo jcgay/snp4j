@@ -4,7 +4,9 @@ import com.github.jcgay.snp4j.request.Notification;
 import com.github.jcgay.snp4j.response.NotificationResult;
 import lombok.NonNull;
 
-public interface Notifier {
+import java.io.Closeable;
+
+public interface Notifier extends Closeable {
 
     NotificationResult send(@NonNull Notification notification);
 }

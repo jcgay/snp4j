@@ -166,6 +166,14 @@ public class SnpNotifierTest {
         assertThat(result).isNotNull();
     }
 
+    @Test
+    public void should_close() throws Exception {
+
+        notifier.close();
+
+        verify(socket).close();
+    }
+
     private static Response successfullResponse() {
         return Response.builder(Status.OK, new Date(), "daemon", "host").build();
     }
