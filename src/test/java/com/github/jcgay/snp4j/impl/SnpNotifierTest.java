@@ -6,13 +6,13 @@ import com.github.jcgay.snp4j.SnpException;
 import com.github.jcgay.snp4j.assertion.SnpAssertions;
 import com.github.jcgay.snp4j.impl.request.Parameter;
 import com.github.jcgay.snp4j.impl.request.Request;
-import com.github.jcgay.snp4j.impl.response.*;
 import com.github.jcgay.snp4j.impl.response.Error;
+import com.github.jcgay.snp4j.impl.response.Response;
+import com.github.jcgay.snp4j.impl.response.Status;
 import com.github.jcgay.snp4j.request.Notification;
 import com.github.jcgay.snp4j.request.Priority;
 import com.github.jcgay.snp4j.request.Sound;
 import com.github.jcgay.snp4j.response.NotificationResult;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,6 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
-import static org.assertj.core.api.Assertions.not;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -62,7 +61,7 @@ public class SnpNotifierTest {
         notification.setTimeout(10);
         notification.setTitle("a-title");
 
-        when(socket.send(isA(Request.class))).thenReturn(Response.builder(Status.OK, new Date(), "daemon", "host").build());
+        when(socket.send(isA(Request.class))).thenReturn(successfullResponse());
 
         // When
         NotificationResult result = notifier.send(notification);
@@ -104,5 +103,70 @@ public class SnpNotifierTest {
             assertThat(e).hasMessage("hint");
             assertThat(e.getStatus()).isEqualTo(Status.ARG_MISSING);
         }
+    }
+
+    @Test
+    public void should_fail_when_sending_a_malformed_notification() throws Exception {
+
+        Notification notification = new Notification();
+        notification.setIcon(null);
+        notification.setText(null);
+        notification.setTitle(null);
+
+        try {
+            notifier.send(notification);
+            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+        } catch (IllegalArgumentException e) {
+            assertThat(e).hasMessage("At least one of <title>, <text> or <icon> must be supplied for the command to succeed.");
+        }
+    }
+
+    @Test
+    public void should_not_fail_when_sending_notification_with_icon() throws Exception {
+
+        Notification notification = new Notification();
+        notification.setIcon(Icon.path("/icon"));
+        notification.setText(null);
+        notification.setTitle(null);
+
+        when(socket.send(isA(Request.class))).thenReturn(successfullResponse());
+
+        NotificationResult result = notifier.send(notification);
+
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    public void should_not_fail_when_sending_notification_with_text() throws Exception {
+
+        Notification notification = new Notification();
+        notification.setIcon(null);
+        notification.setText("text");
+        notification.setTitle(null);
+
+        when(socket.send(isA(Request.class))).thenReturn(successfullResponse());
+
+        NotificationResult result = notifier.send(notification);
+
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    public void should_not_fail_when_sending_notification_with_title() throws Exception {
+
+        Notification notification = new Notification();
+        notification.setIcon(null);
+        notification.setText(null);
+        notification.setTitle("title");
+
+        when(socket.send(isA(Request.class))).thenReturn(successfullResponse());
+
+        NotificationResult result = notifier.send(notification);
+
+        assertThat(result).isNotNull();
+    }
+
+    private static Response successfullResponse() {
+        return Response.builder(Status.OK, new Date(), "daemon", "host").build();
     }
 }

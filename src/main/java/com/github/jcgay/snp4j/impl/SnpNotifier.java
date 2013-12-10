@@ -24,7 +24,9 @@ public class SnpNotifier implements Notifier {
     @Override
     public NotificationResult send(@NonNull Notification notification) {
 
-        // controle de la notification
+        if (notification.getIcon() == null && notification.getText() == null && notification.getTitle() == null) {
+            throw new IllegalArgumentException("At least one of <title>, <text> or <icon> must be supplied for the command to succeed.");
+        }
 
         UUID uuid = UUID.randomUUID();
         Action notify = Action.name("notify")
