@@ -12,7 +12,7 @@ import lombok.ToString;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Sound {
 
-    private final String path;
+    private final String value;
 
     public static Sound path(@NonNull String path) {
         return new Sound(path);

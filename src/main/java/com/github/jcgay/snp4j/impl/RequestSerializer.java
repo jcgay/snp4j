@@ -4,6 +4,7 @@ import com.github.jcgay.snp4j.Icon;
 import com.github.jcgay.snp4j.impl.request.Action;
 import com.github.jcgay.snp4j.impl.request.Parameter;
 import com.github.jcgay.snp4j.impl.request.Request;
+import com.github.jcgay.snp4j.request.Sound;
 import lombok.NonNull;
 
 public class RequestSerializer {
@@ -54,6 +55,9 @@ public class RequestSerializer {
         Object value = parameter.getValue();
         if (value instanceof Icon) {
             return ((Icon) value).getValue();
+        }
+        if (value instanceof Sound) {
+            return ((Sound) value).getValue();
         }
         return value.toString();
     }
