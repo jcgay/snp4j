@@ -1,5 +1,6 @@
 package com.github.jcgay.snp4j.assertion;
 
+import com.github.jcgay.snp4j.Icon;
 import com.github.jcgay.snp4j.impl.request.Request;
 import com.github.jcgay.snp4j.impl.response.Response;
 import org.assertj.core.api.Assertions;
@@ -12,5 +13,9 @@ public class SnpAssertions extends Assertions {
 
     public static RequestAssert assertThat(Request actual) {
         return RequestAssert.assertThat(actual);
+    }
+
+    public static IconAssert assertThat(Icon actual) {
+        return new IconAssert(actual);
     }
 }

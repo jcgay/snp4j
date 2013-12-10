@@ -83,6 +83,25 @@ public class SnpNotifierTest {
     }
 
     @Test
+    public void should_send_notification_with_base64_icon() throws Exception {
+
+        // Given
+        Notification notification = new Notification();
+        notification.setIcon(Icon.base64("icon".getBytes()));
+
+        when(socket.send(isA(Request.class))).thenReturn(successfullResponse());
+
+        // When
+        notifier.send(notification);
+
+        // Then
+        verify(socket).send(requestCapture.capture());
+        SnpAssertions.assertThat(requestCapture.getValue())
+                .hasApplication(application)
+                .containsEntry("notify", Parameter.of("icon-base64", Icon.base64("icon".getBytes())));
+    }
+
+    @Test
     public void should_fail_when_sending_notification() throws Exception {
 
         // Given

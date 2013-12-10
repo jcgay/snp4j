@@ -1,5 +1,6 @@
 package com.github.jcgay.snp4j.impl;
 
+import com.github.jcgay.snp4j.Icon;
 import com.github.jcgay.snp4j.impl.request.Action;
 import com.github.jcgay.snp4j.impl.request.Parameter;
 import com.github.jcgay.snp4j.impl.request.Request;
@@ -9,7 +10,7 @@ public class RequestSerializer {
 
     private static final String CR = "\r";
     private static final String LF = "\n";
-    private static final String CRLF = CR + LF;
+    public static final String CRLF = CR + LF;
 
     String stringify(@NonNull Request request) {
 
@@ -42,11 +43,19 @@ public class RequestSerializer {
             for (Parameter parameter : action.getParameters()) {
                 builder.append(sanitize(parameter.getKey()));
                 builder.append('=');
-                builder.append(sanitize(parameter.getValue().toString()));
+                builder.append(sanitize(getValue(parameter)));
                 builder.append('&');
             }
         }
         return builder.toString();
+    }
+
+    private String getValue(Parameter parameter) {
+        Object value = parameter.getValue();
+        if (value instanceof Icon) {
+            return ((Icon) value).getValue();
+        }
+        return value.toString();
     }
 
     private String sanitize(String string) {

@@ -39,10 +39,10 @@ public class RequestAssert extends AbstractAssert<RequestAssert, Request> {
         checkNotNull(actionName);
         checkNotNull(parameter);
         if (!parametersByAction.containsKey(actionName)) {
-            failWithMessage("Expected request with action <%s> but action was not present.", actionName);
+            failWithMessage("Expected request: <%s>%n with action <%s> but action was not present.", actual.getActions(), actionName);
         }
         if (!parametersByAction.get(actionName).contains(parameter)) {
-            failWithMessage("Expected parameter <%s> to be defined for action <%s> but was not.", parameter, actionName);
+            failWithMessage("Expected request: <%s>%n to contains parameter <%s> to for action <%s> but was not.", actual.getActions(), parameter, actionName);
         }
         return this;
     }

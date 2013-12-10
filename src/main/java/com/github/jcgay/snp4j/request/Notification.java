@@ -31,10 +31,6 @@ public class Notification {
      */
     private Icon icon;
     /**
-     * Base64-encoded bytes to be used as the icon.
-     */
-    private String iconBase64;
-    /**
      * A sound file to play (can be a WAV or MP3 file).
      */
     private Sound sound;

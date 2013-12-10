@@ -1,13 +1,13 @@
 package com.github.jcgay.snp4j.impl;
 
 import com.github.jcgay.snp4j.Application;
-import com.github.jcgay.snp4j.SnpException;
-import com.github.jcgay.snp4j.request.Notification;
 import com.github.jcgay.snp4j.Notifier;
 import com.github.jcgay.snp4j.Server;
+import com.github.jcgay.snp4j.SnpException;
 import com.github.jcgay.snp4j.impl.request.Action;
 import com.github.jcgay.snp4j.impl.request.Request;
 import com.github.jcgay.snp4j.impl.response.Response;
+import com.github.jcgay.snp4j.request.Notification;
 import com.github.jcgay.snp4j.response.NotificationResult;
 import lombok.AccessLevel;
 import lombok.NonNull;
@@ -30,20 +30,21 @@ public class SnpNotifier implements Notifier {
         }
 
         UUID uuid = UUID.randomUUID();
-        Action notify = Action.name("notify")
+        Action.Builder builder = Action.name("notify")
                 .withParameter("id", notification.getClassId())
                 .withParameter("title", notification.getTitle())
                 .withParameter("text", notification.getText())
                 .withParameter("timeout", notification.getTimeout())
-                .withParameter("icon", notification.getIcon())
-                .withParameter("icon-base64", notification.getIconBase64())
                 .withParameter("sound", notification.getSound())
                 .withParameter("priority", notification.getPriority())
-                .withParameter("uuid", uuid)
-                .build();
+                .withParameter("uuid", uuid);
+        if (notification.getIcon() != null) {
+            builder
+                    .withParameter(notification.getIcon().isBase64() ? "icon-base64" : "icon", notification.getIcon());
+        }
 
         Request request = Request.builder(application)
-                .addAction(notify)
+                .addAction(builder.build())
                 .build();
 
         Response response = socket.send(request);
