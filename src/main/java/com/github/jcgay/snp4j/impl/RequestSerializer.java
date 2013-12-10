@@ -7,6 +7,8 @@ import com.github.jcgay.snp4j.impl.request.Request;
 import com.github.jcgay.snp4j.request.Sound;
 import lombok.NonNull;
 
+import java.util.Iterator;
+
 public class RequestSerializer {
 
     private static final String CR = "\r";
@@ -41,11 +43,15 @@ public class RequestSerializer {
         builder.append(sanitize(action.getName()));
         if (!action.getParameters().isEmpty()) {
             builder.append('?');
-            for (Parameter parameter : action.getParameters()) {
+            Iterator<Parameter> iterator = action.getParameters().iterator();
+            while (iterator.hasNext()) {
+                Parameter parameter = iterator.next();
                 builder.append(sanitize(parameter.getKey()));
                 builder.append('=');
                 builder.append(sanitize(getValue(parameter)));
-                builder.append('&');
+                if (iterator.hasNext()) {
+                    builder.append('&');
+                }
             }
         }
         return builder.toString();
@@ -64,8 +70,8 @@ public class RequestSerializer {
 
     private String sanitize(String string) {
         return string
-                .replace(CR, "'\n'")
-                .replace(LF, "'\n'")
+                .replace(CR, "'\\n'")
+                .replace(LF, "'\\n'")
                 .replace("&", "&&")
                 .replace("=", "==");
     }
