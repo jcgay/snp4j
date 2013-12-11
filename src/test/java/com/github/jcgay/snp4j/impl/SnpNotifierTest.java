@@ -23,7 +23,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.github.jcgay.snp4j.assertion.SnpAssertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
@@ -70,7 +70,7 @@ public class SnpNotifierTest {
         assertThat(result.getUuid()).isNotNull();
 
         verify(socket).send(requestCapture.capture());
-        SnpAssertions.assertThat(requestCapture.getValue())
+        assertThat(requestCapture.getValue())
                 .hasApplication(application)
                 .containsEntry("notify", Parameter.of("id", "class-id"))
                 .containsEntry("notify", Parameter.of("title", "a-title"))
@@ -96,7 +96,7 @@ public class SnpNotifierTest {
 
         // Then
         verify(socket).send(requestCapture.capture());
-        SnpAssertions.assertThat(requestCapture.getValue())
+        assertThat(requestCapture.getValue())
                 .hasApplication(application)
                 .containsEntry("notify", Parameter.of("icon-base64", Icon.base64("icon".getBytes())));
     }
@@ -186,11 +186,14 @@ public class SnpNotifierTest {
     }
 
     @Test
-    public void should_close() throws Exception {
+    public void should_unregister_application_when_closing() throws Exception {
 
         notifier.close();
 
+        verify(socket).send(requestCapture.capture());
         verify(socket).close();
+
+        assertThat(requestCapture.getValue()).hasApplication(application);
     }
 
     private static Response successfullResponse() {

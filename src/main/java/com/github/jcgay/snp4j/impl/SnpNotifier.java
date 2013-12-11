@@ -75,6 +75,13 @@ public class SnpNotifier implements Notifier {
 
     @Override
     public void close() throws IOException {
+
+        Request request = Request.builder(application)
+                .addAction(Action.name("unregister").build())
+                .build();
+
+        socket.send(request);
+
         socket.close();
     }
 }
