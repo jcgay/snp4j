@@ -31,6 +31,7 @@ public class SnpNotifier implements Notifier {
 
         UUID uuid = UUID.randomUUID();
         Action.Builder builder = Action.name("notify")
+                .withParameter("app-sig", application.getAppSig())
                 .withParameter("id", notification.getClassId())
                 .withParameter("title", notification.getTitle())
                 .withParameter("text", notification.getText())
@@ -77,7 +78,9 @@ public class SnpNotifier implements Notifier {
     public void close() throws IOException {
 
         Request request = Request.builder(application)
-                .addAction(Action.name("unregister").build())
+                .addAction(Action.name("unregister")
+                        .withParameter("app-sig", application.getAppSig())
+                        .build())
                 .build();
 
         socket.send(request);

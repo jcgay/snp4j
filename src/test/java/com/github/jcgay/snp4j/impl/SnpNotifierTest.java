@@ -72,6 +72,7 @@ public class SnpNotifierTest {
         verify(socket).send(requestCapture.capture());
         assertThat(requestCapture.getValue())
                 .hasApplication(application)
+                .containsEntry("notify", Parameter.of("app-sig", application.getAppSig()))
                 .containsEntry("notify", Parameter.of("id", "class-id"))
                 .containsEntry("notify", Parameter.of("title", "a-title"))
                 .containsEntry("notify", Parameter.of("text", "a-text"))
@@ -193,7 +194,9 @@ public class SnpNotifierTest {
         verify(socket).send(requestCapture.capture());
         verify(socket).close();
 
-        assertThat(requestCapture.getValue()).hasApplication(application);
+        assertThat(requestCapture.getValue())
+                .hasApplication(application)
+                .containsEntry("unregister", Parameter.of("app-sig", application.getAppSig()));
     }
 
     private static Response successfullResponse() {
