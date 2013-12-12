@@ -70,8 +70,8 @@ public class RequestSerializer {
 
     private String sanitize(String string) {
         return string
-                .replace(CR, "'\\n'")
-                .replace(LF, "'\\n'")
+                .replace(CR, "\\n")
+                .replace(LF, "\\n")
                 .replace("&", "&&")
                 .replace("=", "==");
     }

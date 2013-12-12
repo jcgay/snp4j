@@ -50,7 +50,7 @@ public class RequestSerializerTest {
         assertThat(reader.readLine()).isEqualTo("action?key1=value1");
         assertThat(reader.readLine()).isEqualTo("notify?key2=icon&key3=sound");
         assertThat(reader.readLine()).isEqualTo("hello");
-        assertThat(reader.readLine()).isEqualTo("sanitize?key4=line'\\n' break, carriage'\\n' return&key5=and&&equal==");
+        assertThat(reader.readLine()).isEqualTo("sanitize?key4=line\\n break, carriage\\n return&key5=and&&equal==");
         assertThat(reader.readLine()).isEqualTo("END");
     }
 }
