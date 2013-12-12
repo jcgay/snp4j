@@ -7,6 +7,7 @@ import com.github.jcgay.snp4j.impl.response.Response;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class SnpSocketImpl implements SnpSocket {
 
@@ -41,16 +43,20 @@ public class SnpSocketImpl implements SnpSocket {
 
     @Override
     public Response send(@NonNull Request request) {
-        out.print(serializer.stringify(request));
+        String toSend = serializer.stringify(request);
+        log.debug("Sending request: \n{}", toSend);
+        out.print(toSend);
         out.flush();
         return readResponse();
     }
 
     private Response readResponse() {
         Map<String, String> responseElements = new HashMap<String, String>();
+        log.debug("Reading response:");
         String s;
         try {
             while ((s = in.readLine()) != null) {
+                log.debug(s);
                 if ("END".equals(s)) {
                     break;
                 }
