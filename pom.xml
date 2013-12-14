@@ -11,6 +11,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <prerequisites>
+        <maven>2.2.1</maven>
+    </prerequisites>
+
+    <distributionManagement>
+        <repository>
+            <id>jcgay-cloudbees-release</id>
+            <url>dav:https://repository-jcgay.forge.cloudbees.com/release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>jcgay-cloudbees-snapshot</id>
+            <url>dav:https://repository-jcgay.forge.cloudbees.com/snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
