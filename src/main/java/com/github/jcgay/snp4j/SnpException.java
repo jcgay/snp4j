@@ -22,8 +22,9 @@ public class SnpException extends RuntimeException {
     public String toString() {
         return new StringBuilder()
                 .append(super.toString())
-                .append("Status: ")
-                .append(status)
+                .append("\n")
+                .append(" Status: ")
+                .append(status != null ? status : "NONE")
                 .toString();
     }
 }
