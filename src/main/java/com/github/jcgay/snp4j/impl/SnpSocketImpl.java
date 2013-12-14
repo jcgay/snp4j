@@ -13,9 +13,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -32,7 +34,10 @@ public class SnpSocketImpl implements SnpSocket {
 
     public static SnpSocketImpl of(@NonNull Server server) {
         try {
-            Socket socket = new Socket(server.getHost(), server.getPort());
+            Socket socket = new Socket();
+            InetSocketAddress destination = new InetSocketAddress(server.getHost(), server.getPort());
+            socket.connect(destination, (int) server.getTimeout());
+            socket.setSoTimeout((int) server.getTimeout());
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             return new SnpSocketImpl(writer, reader, socket, new RequestSerializer());
