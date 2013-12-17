@@ -26,6 +26,14 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
