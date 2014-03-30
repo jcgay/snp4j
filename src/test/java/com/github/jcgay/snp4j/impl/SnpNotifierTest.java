@@ -3,7 +3,6 @@ package com.github.jcgay.snp4j.impl;
 import com.github.jcgay.snp4j.Application;
 import com.github.jcgay.snp4j.Icon;
 import com.github.jcgay.snp4j.SnpException;
-import com.github.jcgay.snp4j.assertion.SnpAssertions;
 import com.github.jcgay.snp4j.impl.request.Parameter;
 import com.github.jcgay.snp4j.impl.request.Request;
 import com.github.jcgay.snp4j.impl.response.Error;
@@ -197,6 +196,25 @@ public class SnpNotifierTest {
         assertThat(requestCapture.getValue())
                 .hasApplication(application)
                 .containsEntry("unregister", Parameter.of("app-sig", application.getAppSig()));
+    }
+
+    @Test
+    public void should_set_default_timeout_when_not_set() throws Exception {
+
+        // Given
+        Notification notification = new Notification();
+        notification.setTitle("title");
+        when(socket.send(isA(Request.class))).thenReturn(successfullResponse());
+
+        // When
+        NotificationResult result = notifier.send(notification);
+
+        // Then
+        assertThat(result.getUuid()).isNotNull();
+
+        verify(socket).send(requestCapture.capture());
+        assertThat(requestCapture.getValue())
+                .containsEntry("notify", Parameter.of("timeout", -1));
     }
 
     private static Response successfullResponse() {

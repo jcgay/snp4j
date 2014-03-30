@@ -25,7 +25,7 @@ public class Notification {
      * A timeout of {@code -1} (the default) indicates that the notification should use the default duration (this is the
      * recommended practice).
      */
-    private int timeout;
+    private Integer timeout;
     /**
      * The icon to use. <br />
      */

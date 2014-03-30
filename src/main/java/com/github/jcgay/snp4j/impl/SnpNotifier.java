@@ -35,7 +35,7 @@ public class SnpNotifier implements Notifier {
                 .withParameter("id", notification.getClassId())
                 .withParameter("title", notification.getTitle())
                 .withParameter("text", notification.getText())
-                .withParameter("timeout", notification.getTimeout())
+                .withParameter("timeout", notification.getTimeout() == null ? -1 : notification.getTimeout())
                 .withParameter("sound", notification.getSound())
                 .withParameter("priority", notification.getPriority())
                 .withParameter("uuid", uuid);
