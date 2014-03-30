@@ -1,12 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.jcgay.snp4j</groupId>
     <artifactId>snp4j</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -19,7 +16,8 @@
         <url>https://github.com/jcgay/snp4j</url>
         <connection>scm:git:git://github.com/jcgay/snp4j.git</connection>
         <developerConnection>scm:git:git@github.com:jcgay/snp4j.git</developerConnection>
-    </scm>
+      <tag>v0.1</tag>
+  </scm>
 
     <distributionManagement>
         <repository>
