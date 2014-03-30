@@ -15,6 +15,12 @@
         <maven>2.2.1</maven>
     </prerequisites>
 
+    <scm>
+        <url>https://github.com/jcgay/snp4j</url>
+        <connection>scm:git:git://github.com/jcgay/snp4j.git</connection>
+        <developerConnection>scm:git:git@github.com:jcgay/snp4j.git</developerConnection>
+    </scm>
+
     <distributionManagement>
         <repository>
             <id>jcgay-cloudbees-release</id>
