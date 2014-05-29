@@ -21,7 +21,7 @@ public class RequestSerializer {
         builder.append(buildHeader());
         builder.append(CRLF);
         for (Action action : request.getActions()) {
-            builder.append(buildAction(action));
+            builder.append(buildAction(action, request.getApplication().getPassword()));
             builder.append(CRLF);
         }
         builder.append(buildFooter());
@@ -38,11 +38,15 @@ public class RequestSerializer {
         return "SNP/3.0";
     }
 
-    private String buildAction(Action action) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(sanitize(action.getName()));
+    private String buildAction(Action action, String password) {
+        StringBuilder builder = new StringBuilder()
+                .append(sanitize(action.getName()))
+                .append('?')
+                .append("password")
+                .append("=")
+                .append(password);
         if (!action.getParameters().isEmpty()) {
-            builder.append('?');
+            builder.append('&');
             Iterator<Parameter> iterator = action.getParameters().iterator();
             while (iterator.hasNext()) {
                 Parameter parameter = iterator.next();
