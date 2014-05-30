@@ -29,7 +29,7 @@ public class Request {
         private Application application;
         private List<Action> actions = new ArrayList<Action>();
 
-        protected Builder(Application application) {
+        private Builder(Application application) {
             this.application = application;
         }
 

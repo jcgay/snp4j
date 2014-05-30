@@ -15,10 +15,10 @@ public class RequestSerializer {
     private static final String LF = "\n";
     public static final String CRLF = CR + LF;
 
-    String stringify(@NonNull Request request) {
+    String stringify(@NonNull Request request, String keyHash) {
 
         StringBuilder builder = new StringBuilder();
-        builder.append(buildHeader());
+        builder.append(buildHeader(keyHash));
         builder.append(CRLF);
         for (Action action : request.getActions()) {
             builder.append(buildAction(action, request.getApplication().getPassword()));
@@ -34,8 +34,8 @@ public class RequestSerializer {
         return "END";
     }
 
-    private String buildHeader() {
-        return "SNP/3.0";
+    private String buildHeader(String keyHash) {
+        return "SNP/3.0 " + keyHash;
     }
 
     private String buildAction(Action action, String password) {

@@ -3,6 +3,7 @@ package fr.jcgay.snp4j.impl;
 import fr.jcgay.snp4j.Server;
 import fr.jcgay.snp4j.SnpException;
 import fr.jcgay.snp4j.impl.request.Request;
+import fr.jcgay.snp4j.impl.request.Token;
 import fr.jcgay.snp4j.impl.response.Response;
 import lombok.AccessLevel;
 import lombok.NonNull;
@@ -30,6 +31,7 @@ public class SnpSocketImpl implements SnpSocket {
     private final Socket socket;
     @NonNull
     private final RequestSerializer serializer;
+    private final String password;
 
     public static SnpSocketImpl of(@NonNull Server server) {
         try {
@@ -39,7 +41,7 @@ public class SnpSocketImpl implements SnpSocket {
             socket.setSoTimeout((int) server.getTimeout());
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            return new SnpSocketImpl(writer, reader, socket, new RequestSerializer());
+            return new SnpSocketImpl(writer, reader, socket, new RequestSerializer(), server.getPassword());
         } catch (IOException e) {
             throw new SnpException("Cannot create notifier, an error occurs while creating the socket.", e);
         }
@@ -47,7 +49,7 @@ public class SnpSocketImpl implements SnpSocket {
 
     @Override
     public Response send(@NonNull Request request) {
-        String toSend = serializer.stringify(request);
+        String toSend = serializer.stringify(request, Token.create(password).hash());
         log.debug("Sending request: \n{}", toSend);
         out.print(toSend);
         out.flush();

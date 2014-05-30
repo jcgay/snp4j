@@ -43,10 +43,10 @@ public class RequestSerializerTest {
                 )
                 .build();
 
-        String result = serializer.stringify(request);
+        String result = serializer.stringify(request, "password-with-salt");
 
         BufferedReader reader = new BufferedReader(new StringReader(result));
-        assertThat(reader.readLine()).isEqualTo("SNP/3.0");
+        assertThat(reader.readLine()).isEqualTo("SNP/3.0 password-with-salt");
         assertThat(reader.readLine()).isEqualTo("action?password=" + application.getPassword() + "&key1=value1");
         assertThat(reader.readLine()).isEqualTo("notify?password=" + application.getPassword() + "&key2=icon&key3=sound");
         assertThat(reader.readLine()).isEqualTo("hello?password=" + application.getPassword());

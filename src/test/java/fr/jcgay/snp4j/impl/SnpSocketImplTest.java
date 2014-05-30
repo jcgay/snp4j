@@ -32,7 +32,6 @@ public class SnpSocketImplTest {
     private BufferedReader reader;
 
     private SnpSocketImpl underTest;
-
     private StringWriter writer;
     private Application application = Application.of("application/x-vnd-test", "Test");
 
@@ -43,7 +42,8 @@ public class SnpSocketImplTest {
                 new PrintWriter(writer),
                 reader,
                 socket,
-                serializer
+                serializer,
+                null
         );
     }
 
@@ -69,7 +69,7 @@ public class SnpSocketImplTest {
                 .thenReturn("x-host: ie10win7")
                 .thenReturn("END");
 
-        when(serializer.stringify(request)).thenReturn("a.request");
+        when(serializer.stringify(request, "")).thenReturn("a.request");
 
         // When
         Response result = underTest.send(request);
@@ -103,7 +103,7 @@ public class SnpSocketImplTest {
                 .thenReturn("x-host: ie10win7")
                 .thenReturn("END");
 
-        when(serializer.stringify(request)).thenReturn("a.request");
+        when(serializer.stringify(request, "")).thenReturn("a.request");
 
         // When
         Response result = underTest.send(request);
@@ -142,7 +142,7 @@ public class SnpSocketImplTest {
                 .thenReturn("x-host: conerstone")
                 .thenReturn("END");
 
-        when(serializer.stringify(request)).thenReturn("a.request");
+        when(serializer.stringify(request, "")).thenReturn("a.request");
 
         // When
         Response result = underTest.send(request);

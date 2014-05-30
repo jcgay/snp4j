@@ -12,14 +12,47 @@ public class Server {
     private final String host;
     private final int port;
     private final long timeout;
+    private final String password;
 
-    public Server(String host, int port, long timeout) {
-        this.host = host;
-        this.port = port;
-        this.timeout = timeout;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public Server(String host, int port) {
-        this(host, port, TimeUnit.SECONDS.toMillis(1L));
+    public static class Builder {
+        private String host;
+        private String password;
+        private Integer port;
+        private Long timeout;
+
+        private Builder() {}
+
+        public Builder withHost(@NonNull String host) {
+            this.host = host;
+            return this;
+        }
+
+        public Builder withPassword(@NonNull String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder withPort(int port) {
+            this.port = port;
+            return this;
+        }
+
+        public Builder withTimeout(long timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+        public Server build() {
+            return new Server(
+                    host != null ? host : "localhost",
+                    port != null ? port : 9887,
+                    timeout != null ? timeout : TimeUnit.SECONDS.toMillis(1L),
+                    password
+            );
+        }
     }
 }
