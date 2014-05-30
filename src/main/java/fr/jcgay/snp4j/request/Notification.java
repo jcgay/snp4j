@@ -3,6 +3,9 @@ package fr.jcgay.snp4j.request;
 import fr.jcgay.snp4j.Icon;
 import lombok.Data;
 
+/**
+ * Describe a notification to be sent.
+ */
 @Data
 public class Notification {
 

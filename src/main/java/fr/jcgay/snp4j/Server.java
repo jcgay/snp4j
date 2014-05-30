@@ -2,16 +2,33 @@ package fr.jcgay.snp4j;
 
 import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Describe the Snarl instance we will talk to.
+ */
 @Data
+@ToString(exclude = "password")
 public class Server {
 
+    /**
+     * Host. By default: {@code localhost}.
+     */
     @NonNull
     private final String host;
+    /**
+     * Port. By default: {@code 9887}.
+     */
     private final int port;
+    /**
+     * Timeout. By Default: {@code 1 second}.
+     */
     private final long timeout;
+    /**
+     * The password (if any) defined in Snarl > Settings > Options > Network > Security > Password.
+     */
     private final String password;
 
     public static Builder builder() {
