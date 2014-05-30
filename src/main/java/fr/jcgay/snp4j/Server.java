@@ -48,7 +48,7 @@ public class Server {
             return this;
         }
 
-        public Builder withPassword(@NonNull String password) {
+        public Builder withPassword(String password) {
             this.password = password;
             return this;
         }
