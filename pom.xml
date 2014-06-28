@@ -9,7 +9,7 @@
 
     <groupId>fr.jcgay.snp4j</groupId>
     <artifactId>snp4j</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
     <name>SNP4J</name>
     <description>An api to send notification to Snarl</description>
 
@@ -17,7 +17,7 @@
         <url>https://github.com/jcgay/snp4j</url>
         <connection>scm:git:git://github.com/jcgay/snp4j.git</connection>
         <developerConnection>scm:git:git@github.com:jcgay/snp4j.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.2</tag>
     </scm>
 
     <dependencies>
