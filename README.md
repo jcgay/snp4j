@@ -11,7 +11,10 @@ A blocking implementation of the SNP protocol to talk with [Snarl](http://snarl.
 5. Release resources.
 
 ```	
-	Server destination = new Server("localhost", 9887);
+	Server destination = Server.builder()
+                .withHost("localhost")
+                .withPort(9887)
+                .build();
 	Application application = Application.of("application/x-vnd-apache.maven", "Maven");
 	Notifier notifier = SnpNotifier.of(application, destination);
 	
@@ -34,21 +37,10 @@ The application is automatically registered against Snarl, and unregistered when
 
 Example with *Maven*:
 
-    <project>
-  		...
-  		<repositories>
-    		<repository>
-      			<id>jcgay-snapshots</id>
-      			<url>https://repository-jcgay.forge.cloudbees.com/snapshot/</url>
-    		</repository>
-  		</repositories>
-  		...
-  		<dependencies>
-  			<dependency>
-				<groupId>com.github.jcgay.snp4j</groupId>
-			    <artifactId>snp4j</artifactId>
-			    <version>0.1-SNAPSHOT</version>
-    		</dependency>
-  		</dependencies>
-  		...
-	</project>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.jcgay.snp4j</groupId>
+            <artifactId>snp4j</artifactId>
+            <version>0.2</version>
+        </dependency>
+    </dependencies>
