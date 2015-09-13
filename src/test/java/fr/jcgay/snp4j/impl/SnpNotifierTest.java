@@ -36,7 +36,7 @@ public class SnpNotifierTest {
 
     private SnpNotifier notifier;
 
-    private Application application = Application.of("application/x-vnd-test", "Test");
+    private Application application = Application.withPassword("application/x-vnd-test", "Test");
 
     @Captor
     private ArgumentCaptor<Request> requestCapture;

@@ -17,15 +17,15 @@ public class RequestSerializer {
 
     String stringify(@NonNull Request request, String keyHash) {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(buildHeader(keyHash));
-        builder.append(CRLF);
+        StringBuilder builder = new StringBuilder()
+                .append(buildHeader(keyHash))
+                .append(CRLF);
         for (Action action : request.getActions()) {
-            builder.append(buildAction(action, request.getApplication().getPassword()));
-            builder.append(CRLF);
+            builder.append(buildAction(action, request.getApplication().getPassword()))
+                    .append(CRLF);
         }
-        builder.append(buildFooter());
-        builder.append(CRLF);
+        builder.append(buildFooter())
+                .append(CRLF);
 
         return builder.toString();
     }
@@ -40,19 +40,21 @@ public class RequestSerializer {
 
     private String buildAction(Action action, String password) {
         StringBuilder builder = new StringBuilder()
-                .append(sanitize(action.getName()))
-                .append('?')
-                .append("password")
-                .append("=")
-                .append(password);
+                .append(sanitize(action.getName()));
+        if (password != null) {
+            builder.append('?')
+                    .append("password")
+                    .append("=")
+                    .append(password);
+        }
         if (!action.getParameters().isEmpty()) {
-            builder.append('&');
+            builder.append(password == null ? '?' : '&');
             Iterator<Parameter> iterator = action.getParameters().iterator();
             while (iterator.hasNext()) {
                 Parameter parameter = iterator.next();
-                builder.append(sanitize(parameter.getKey()));
-                builder.append('=');
-                builder.append(sanitize(getValue(parameter)));
+                builder.append(sanitize(parameter.getKey()))
+                        .append('=')
+                        .append(sanitize(getValue(parameter)));
                 if (iterator.hasNext()) {
                     builder.append('&');
                 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Describe the application interacting with Snarl.
  */
-@Data(staticConstructor = "of")
+@Data(staticConstructor = "withPassword")
 @ToString(exclude = "password")
 public class Application {
 
@@ -35,11 +35,17 @@ public class Application {
     @NonNull
     private final String title;
     /**
-     * A random password is generated when creating an application. <br />
-     * It is then used to prevent other applications from creating notifications by masquerading as an already registered application.
+     * A password is used to prevent other applications from creating notifications by masquerading as an already registered application.
      *
      * @see <a href="https://sites.google.com/site/snarlapp/developers/developer-guide#TOC-Application-Passwords">Application passwords</a>
      */
-    @NonNull
-    private final String password = UUID.randomUUID().toString();
+    private final String password;
+
+    public static Application withPassword(@NonNull String appSig, @NonNull String title) {
+        return new Application(appSig, title, UUID.randomUUID().toString());
+    }
+
+    public static Application withoutPassword(@NonNull String appSig, @NonNull String title) {
+        return new Application(appSig, title, null);
+    }
 }

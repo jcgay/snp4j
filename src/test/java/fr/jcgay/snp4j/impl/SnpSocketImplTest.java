@@ -33,7 +33,7 @@ public class SnpSocketImplTest {
 
     private SnpSocketImpl underTest;
     private StringWriter writer;
-    private Application application = Application.of("application/x-vnd-test", "Test");
+    private Application application = Application.withPassword("application/x-vnd-test", "Test");
 
     @Before
     public void setUp() throws Exception {
