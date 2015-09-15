@@ -22,5 +22,5 @@ public interface Notifier extends Closeable {
      * @throws fr.jcgay.snp4j.SnpException if an unexpected error occurs while sending the notification
      */
     @NonNull
-    NotificationResult send(@NonNull Notification notification);
+    NotificationResult send(Notification notification);
 }
