@@ -49,3 +49,8 @@ Example with *Maven*:
 
 [![Build Status](https://travis-ci.org/jcgay/snp4j.svg?branch=master)](https://travis-ci.org/jcgay/snp4j)
 [![Coverage Status](https://coveralls.io/repos/jcgay/snp4j/badge.svg?branch=master&service=github)](https://coveralls.io/github/jcgay/snp4j?branch=master)
+
+# Release
+
+    mvn -B release:prepare release:perform
+
