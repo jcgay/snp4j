@@ -44,3 +44,8 @@ Example with *Maven*:
             <version>0.2</version>
         </dependency>
     </dependencies>
+
+# Build status
+
+[![Build Status](https://travis-ci.org/jcgay/snp4j.svg?branch=master)](https://travis-ci.org/jcgay/snp4j)
+[![Coverage Status](https://coveralls.io/repos/jcgay/snp4j/badge.svg?branch=master&service=github)](https://coveralls.io/github/jcgay/snp4j?branch=master)
