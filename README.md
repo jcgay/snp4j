@@ -10,7 +10,7 @@ A blocking implementation of the SNP protocol to talk with [Snarl](http://snarl.
 4. Send the notification,
 5. Release resources.
 
-```	
+```java
 	Server destination = Server.builder()
                 .withHost("localhost")
                 .withPort(9887)
@@ -37,13 +37,15 @@ The application is automatically registered against Snarl, and unregistered when
 
 Example with *Maven*:
 
+```xml
     <dependencies>
         <dependency>
             <groupId>com.github.jcgay.snp4j</groupId>
             <artifactId>snp4j</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
     </dependencies>
+```
 
 # Build status
 
